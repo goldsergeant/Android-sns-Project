@@ -20,6 +20,12 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.password.text.toString()
             doLogin(userEmail, password)
         }
+
+        binding.signup.setOnClickListener {
+            startActivity(
+                Intent(this,SignUpActivity::class.java))
+            finish()
+        }
     }
 
     private fun doLogin(userEmail: String, password: String) {
