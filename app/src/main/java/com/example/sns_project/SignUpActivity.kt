@@ -75,7 +75,8 @@ class SignUpActivity:AppCompatActivity(){
             "month" to month,
             "day" to day
         )
-            usersCollectionRef.add(userMap)
+        val email=binding.editTextTextEmailAddress.text.toString()
+            usersCollectionRef.document(email).set(userMap)
     }
 
 }

@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import com.example.sns_project.databinding.ActivityHomeBinding
 import com.example.sns_project.databinding.ActivityProfileBinding
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,6 +48,17 @@ class Profile : Fragment() {
             )
         }
         // Inflate the layout for this fragment
+        val db: FirebaseFirestore = Firebase.firestore
+        val usersCollectionRef=db.collection("users")
+        val useremail= Firebase.auth.currentUser?.email
+        if (useremail != null) {
+            usersCollectionRef.document(useremail).get().addOnSuccessListener {
+                binding.name.text= it["name"].toString()
+                binding.email.text=useremail
+                binding.birth.text=it["year"].toString()+"-"+it["month"].toString()+"-"+it["day"].toString()
+            }
+        }
+
         return binding.root
     }
 
