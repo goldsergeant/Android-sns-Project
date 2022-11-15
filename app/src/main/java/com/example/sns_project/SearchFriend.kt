@@ -5,6 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.example.sns_project.databinding.ActivitySearchfriendBinding
+import com.google.apphosting.datastore.testing.DatastoreTestTrace.FirestoreV1Action.GetDocument
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.suspendCoroutine
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,9 +43,26 @@ class SearchFriend : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val binding=ActivitySearchfriendBinding.inflate(layoutInflater)
+        val db: FirebaseFirestore = Firebase.firestore
+        val usersCollectionRef=db.collection("users")
+        binding.findUserButton.setOnClickListener{
+            val userEmail=binding.userEmailText.text.toString()
+            usersCollectionRef.document(userEmail).get().addOnSuccessListener {
+                val username=it["name"]
+                println(username)
+                if(username!=null){
+                    binding.addFriendText.text=username.toString()
+                }else{
+                    Toast.makeText(activity,"user not found",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_searchfriend, container, false)
+        return binding.root
     }
+
 
     companion object {
         /**
