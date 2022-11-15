@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var scene_post: Post
     private lateinit var scene_home: Home
     private lateinit var scene_search: SearchFriend
+    private lateinit var scene_profile: Profile
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         scene_post=Post()
         scene_home=Home()
         scene_search=SearchFriend()
+        scene_profile= Profile()
         supportFragmentManager.beginTransaction().add(R.id.framelayout,scene_home).commit()
 
         tabBar.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
@@ -43,6 +45,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     3->{
                         replaceView(scene_friendList)
+                    }
+                    4->{
+                        replaceView(scene_profile)
                     }
                 }
             }
