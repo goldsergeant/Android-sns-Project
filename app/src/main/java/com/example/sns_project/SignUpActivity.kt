@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.sns_project.databinding.ActivitySignupBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -17,6 +18,8 @@ import java.util.Calendar
 class SignUpActivity:AppCompatActivity(){
     private val db: FirebaseFirestore = Firebase.firestore
     private val usersCollectionRef = db.collection("users")
+    val database=Firebase.database
+    val friendsRef=database.getReference("friends")
     private lateinit var binding:ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -76,7 +79,7 @@ class SignUpActivity:AppCompatActivity(){
             "day" to day
         )
         val email=binding.editTextTextEmailAddress.text.toString()
-            usersCollectionRef.document(email).set(userMap)
+        usersCollectionRef.document(email).set(userMap)
     }
 
 }

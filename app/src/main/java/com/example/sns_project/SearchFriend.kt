@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.sns_project.databinding.ActivitySearchfriendBinding
 import com.google.apphosting.datastore.testing.DatastoreTestTrace.FirestoreV1Action.GetDocument
+import com.google.firebase.auth.ktx.*
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -45,18 +47,37 @@ class SearchFriend : Fragment() {
     ): View? {
         val binding=ActivitySearchfriendBinding.inflate(layoutInflater)
         val db: FirebaseFirestore = Firebase.firestore
+        val database=Firebase.database
+        val friendsRef=database.getReference("friends")
         val usersCollectionRef=db.collection("users")
+        var username=""
+        var userEmail=""
         binding.findUserButton.setOnClickListener{
-            val userEmail=binding.userEmailText.text.toString()
-            usersCollectionRef.document(userEmail).get().addOnSuccessListener {
-                val username=it["name"]
-                println(username)
-                if(username!=null){
-                    binding.addFriendText.text=username.toString()
-                }else{
-                    Toast.makeText(activity,"user not found",Toast.LENGTH_SHORT).show()
+            if(binding.userEmailText.text.toString()!="")
+                userEmail=binding.userEmailText.text.toString()
+            if(userEmail!="") {
+                usersCollectionRef.document(userEmail).get().addOnSuccessListener {
+                    if (it["name"] != null) {
+                        username = it["name"] as String
+                    }
+                    if (username != "") {
+                        binding.addFriendText.text = username.toString()
+                    } else {
+                        Toast.makeText(activity, "user not found", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+        }
+
+        binding.addFriendButton.setOnClickListener {
+            if(binding.addFriendText.text!=""){
+                val friendMap = hashMapOf(
+                    "email" to userEmail
+                )
+                Firebase.auth.currentUser?.let { it1 -> friendsRef.child(it1.uid).child(username).setValue(friendMap) }
+            }
+            binding.addFriendText.text=""
+            Toast.makeText(activity,username+" is your friend!",Toast.LENGTH_SHORT).show()
         }
 
         // Inflate the layout for this fragment

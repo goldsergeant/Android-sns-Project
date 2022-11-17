@@ -20,7 +20,6 @@
         android:layout_width="274dp"
         android:layout_height="48dp"
         android:layout_marginTop="32dp"
-        android:text="User's Name"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

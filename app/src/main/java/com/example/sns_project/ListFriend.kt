@@ -5,6 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sns_project.databinding.ActivityListfriendBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,7 +29,9 @@ class ListFriend : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private var adapter: MyAdapter? = null
+    val database= Firebase.database
+    val friendsRef= Firebase.auth.currentUser?.let { database.getReference("friends").child(it.uid) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,8 +44,31 @@ class ListFriend : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val binding=ActivityListfriendBinding.inflate(layoutInflater)
+        adapter = MyAdapter(this, emptyList())
+        binding.recyclerviewItems.layoutManager=LinearLayoutManager(activity)
+        binding.recyclerviewItems.adapter=adapter
+        val query= friendsRef?.orderByChild(id.toString())
+        if (query != null) {
+            query.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val items= mutableListOf<Item>()
+                    for (child in dataSnapshot.children) {
+                        items.add(Item(child.key ?: "", child.value as Map<*, *>))
+                        println("${child.key} - ${child.value as Map<*,*>}")
+                    }
+                    adapter?.updateList(items)
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    // Failed to read value
+                }
+            })
+        }
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_listfriend, container, false)
+        return binding.root
     }
 
     companion object {
