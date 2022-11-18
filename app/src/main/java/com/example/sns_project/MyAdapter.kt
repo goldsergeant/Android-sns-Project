@@ -4,7 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sns_project.databinding.ListfrienditemBinding
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.ktx.Firebase
 
 data class Item( val name: String, val email: String) {
     constructor(doc: QueryDocumentSnapshot) :
@@ -17,6 +21,8 @@ class MyViewHolder(val binding: ListfrienditemBinding) : RecyclerView.ViewHolder
 
 class MyAdapter(private val context: ListFriend, private var items: List<Item>)
     : RecyclerView.Adapter<MyViewHolder>() {
+    val database= Firebase.database
+    val friendsRef= Firebase.auth.currentUser?.let { database.getReference("friends").child(it.uid) }
 
     fun interface OnItemClickListener {
         fun onItemClick(student_id: String)
@@ -38,7 +44,16 @@ class MyAdapter(private val context: ListFriend, private var items: List<Item>)
         holder.binding.friendListName.text = item.name
         holder.binding.friendListEmail.text=item.email
 
+        holder.binding.deleteFriendButton.setOnClickListener {
+            deleteItem(position)
+        }
+
     }
 
     override fun getItemCount() = items.size
+
+    private fun deleteItem(position: Int) {
+        val item=items[position]
+        friendsRef?.child(item.name)?.removeValue()?.addOnSuccessListener {  }
+    }
 }

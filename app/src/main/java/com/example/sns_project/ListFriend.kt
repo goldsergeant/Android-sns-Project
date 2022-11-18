@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sns_project.databinding.ActivityListfriendBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -64,7 +65,6 @@ class ListFriend : Fragment() {
                 }
             })
         }
-
 
 
         // Inflate the layout for this fragment
