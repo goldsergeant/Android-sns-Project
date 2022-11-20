@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@mipmap/home_foreground"
+        android:enabled="true"
+        android:title="home"
+        />
+    <item
+        android:id="@+id/search"
+        android:icon="@mipmap/search_foreground"
+        android:enabled="true"
+        android:title="search"
+        />
+    <item
+        android:id="@+id/post"
+        android:icon="@mipmap/plusplus_foreground"
+        android:enabled="true"
+        android:title="post"
+        />
+    <item
+        android:id="@+id/friend"
+        android:icon="@mipmap/heart_foreground"
+        android:enabled="true"
+        android:title="friend"
+        />
+    <item
+        android:id="@+id/profile"
+        android:icon="@mipmap/profile_foreground"
+        android:enabled="true"
+        android:title="profile"
+        />
+</menu>

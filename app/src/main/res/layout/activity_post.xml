@@ -12,27 +12,29 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="Post"
-        android:textStyle="bold"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
-        android:layout_width="wrap_content"
+        android:id="@+id/post_edittext"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/post_border"
+
         android:ems="10"
         android:hint="edit"
-
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/post_photobutton"
         android:layout_width="51dp"
         android:layout_height="53dp"
         android:layout_marginStart="10dp"
@@ -40,8 +42,29 @@
         android:backgroundTint="#FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+        app:layout_constraintTop_toBottomOf="@+id/post_edittext"
         app:srcCompat="@mipmap/image_foreground" />
+
+    <ImageView
+        android:id="@+id/post_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_photobutton"
+
+        />
+
+    <Button
+        android:id="@+id/post_uploadbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="upload"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_photo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
