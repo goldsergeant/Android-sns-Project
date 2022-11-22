@@ -18,7 +18,8 @@ class LoginActivity : AppCompatActivity() {
         binding.login.setOnClickListener {
             val userEmail = binding.username.text.toString()
             val password = binding.password.text.toString()
-            doLogin(userEmail, password)
+            if(userEmail!="" && password!="")
+                doLogin(userEmail, password)
         }
 
         binding.signup.setOnClickListener {
