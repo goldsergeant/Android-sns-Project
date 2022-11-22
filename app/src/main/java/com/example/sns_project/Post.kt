@@ -19,12 +19,16 @@ import androidx.fragment.app.Fragment
 import androidx.transition.Scene
 import com.example.sns_project.databinding.ActivityLoginBinding
 import com.example.sns_project.databinding.ActivityPostBinding
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +40,8 @@ class Post : AppCompatActivity() {
 
     var PICK_IMAGE_FROM_ALBUM = 0
     var photoUri : Uri? = null
+    var auth : FirebaseAuth? = null
+    var firestore : FirebaseFirestore? = null
 
     lateinit var storagePermission: ActivityResultLauncher<String>
 
@@ -50,6 +56,8 @@ class Post : AppCompatActivity() {
         Firebase.auth.currentUser ?: finish()
 
         storage = Firebase.storage
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         storagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted->
             if(isGranted) {
@@ -67,6 +75,7 @@ class Post : AppCompatActivity() {
 
 
         storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
     }
 
     /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -102,9 +111,46 @@ class Post : AppCompatActivity() {
 
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
-        storageRef?.putFile(photoUri)?.addOnSuccessListener {
-            Toast.makeText(this,"upload success",Toast.LENGTH_LONG).show()
+        storageRef?.putFile(photoUri)?.continueWithTask{ task: Task<UploadTask.TaskSnapshot> ->
+            return@continueWithTask storageRef.downloadUrl
+        }?.addOnSuccessListener { uri ->
+            var PostData = PostData()
+
+            PostData.uid = auth?.currentUser?.uid
+            PostData.userId = auth?.currentUser?.email
+
+            PostData.posttext = binding.postEdittext.text.toString()
+            PostData.imageUrl = uri.toString()
+
+            PostData.timestamp = System.currentTimeMillis()
+
+            firestore?.collection("images")?.document()?.set(PostData)
+
+            setResult(Activity.RESULT_OK)
+            finish()
+
         }
+
+
+        /*storageRef?.putFile(photoUri)?.addOnSuccessListener {
+            //Toast.makeText(this,"upload success",Toast.LENGTH_LONG).show()
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                var PostData = PostData()
+
+                PostData.uid = auth?.currentUser?.uid
+                PostData.userId = auth?.currentUser?.email
+
+                PostData.posttext = binding.postEdittext.text.toString()
+                PostData.imageUrl = uri.toString()
+
+                PostData.timestamp = System.currentTimeMillis()
+
+                firestore?.collection("images")?.document()?.set(PostData)
+
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }*/
 
     }
 }

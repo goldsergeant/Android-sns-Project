@@ -1,9 +1,11 @@
 package com.example.sns_project
 
+import android.Manifest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.Scene
 import com.example.sns_project.databinding.ActivityMainBinding
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
 
         binding.bottomNavigation.setOnItemSelectedListener { item->
             when(item.itemId){
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.post->{
                     startActivity(Intent(this,Post::class.java))
+                    binding.bottomNavigation.selectedItemId = R.id.home
                 }
                 R.id.friend->{
                     var FriendFragment = ListFriend()
@@ -45,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        binding.bottomNavigation.selectedItemId = R.id.home
 
         if (Firebase.auth.currentUser == null) {
             startActivity(

@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/userNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Friend's Name"
-        android:textSize="20dp"
+        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,17 +21,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:text="post text"
         android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/chatButton"
         app:layout_constraintTop_toBottomOf="@+id/likeButton" />
 
     <ImageView
         android:id="@+id/postImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userNameText"
         tools:srcCompat="@tools:sample/avatars" />
@@ -40,30 +42,29 @@
         android:id="@+id/likeCountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="16dp"
         android:text="Like Count"
         android:textSize="16dp"
         app:layout_constraintStart_toEndOf="@+id/likeButton"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toTopOf="@+id/chatButton" />
 
     <ImageButton
         android:id="@+id/likeButton"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         app:layout_constraintStart_toEndOf="@+id/chatButton"
-        app:layout_constraintTop_toBottomOf="@+id/postImage"
+        app:layout_constraintTop_toTopOf="@+id/chatButton"
         app:srcCompat="@drawable/like_button" />
 
     <ImageButton
         android:id="@+id/chatButton"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/postImage"
