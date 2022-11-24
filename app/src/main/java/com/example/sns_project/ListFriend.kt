@@ -56,7 +56,6 @@ class ListFriend : Fragment() {
                     val items= mutableListOf<Item>()
                     for (child in dataSnapshot.children) {
                         items.add(Item(child.key ?: "", child.value as Map<*, *>))
-                        println("${child.key} - ${child.value as Map<*,*>}")
                     }
                     adapter?.updateList(items)
                 }
@@ -72,7 +71,7 @@ class ListFriend : Fragment() {
     }
 
     companion object {
-        /**
+        /**a
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *

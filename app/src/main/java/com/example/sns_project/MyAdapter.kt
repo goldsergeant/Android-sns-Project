@@ -24,10 +24,6 @@ class MyAdapter(private val context: ListFriend, private var items: List<Item>)
     val database= Firebase.database
     val friendsRef= Firebase.auth.currentUser?.let { database.getReference("friends").child(it.uid) }
 
-    fun interface OnItemClickListener {
-        fun onItemClick(student_id: String)
-    }
-
     fun updateList(newList: List<Item>) {
         items = newList
         notifyDataSetChanged()
