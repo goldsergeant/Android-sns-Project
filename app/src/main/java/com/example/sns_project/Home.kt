@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -71,7 +72,7 @@ class Home : Fragment() {
                     val PostDatas = ArrayList<PostData>()
                     for (snapshot in querySnapshot!!.documents) {
                         val postData = snapshot.toObject(PostData::class.java)
-                        if (postData != null && adapter.friendList.contains(postData.userId)) {
+                        if (postData != null&&(adapter.friendList.contains(postData.userId)||postData.userId==Firebase.auth.currentUser?.email)) {
                             PostDatas.add(postData)
                         }
                     }
