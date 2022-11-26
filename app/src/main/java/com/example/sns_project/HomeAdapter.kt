@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,6 +30,7 @@ class HomeAdapter(private val context: Home) : RecyclerView.Adapter<RecyclerView
     var PostDatas=ArrayList<PostData>()
     val friendsRef = database.getReference("friends")
     var friendList: ArrayList<String> = arrayListOf()
+    var uid : String? = null
 
     init {
         Uids.clear()
@@ -50,13 +52,15 @@ class HomeAdapter(private val context: Home) : RecyclerView.Adapter<RecyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.homeitem, parent, false)
+        uid = FirebaseAuth.getInstance().currentUser?.uid
         return CustomViewHolder(view)
         /*val binding = HomeitemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return CustomViewHolder(binding)*/
     }
 
-    fun updateList(newList: ArrayList<PostData>) {
+    fun updateList(newList: ArrayList<PostData>, newUid: ArrayList<String>) {
         PostDatas = newList
+        Uids = newUid
         notifyDataSetChanged()
     }
 
@@ -81,9 +85,43 @@ class HomeAdapter(private val context: Home) : RecyclerView.Adapter<RecyclerView
 
         viewholder.likeCountText.text = "Likes " + PostDatas!![position].likecount
 
+        viewholder.likeButton.setOnClickListener{
+            DoLikeEvent(position)
+        }
+
+        if(PostDatas!![position].likes.containsKey(uid)){
+            //좋아요를 클릭했을때
+            viewholder.likeButton.setImageResource(R.drawable.black_heart)
+        }
+        else{
+            //좋아요를 클릭하지 않았을때
+            viewholder.likeButton.setImageResource(R.drawable.empty_heart)
+        }
+
     }
 
     override fun getItemCount(): Int {
         return PostDatas.size
+    }
+
+    fun DoLikeEvent(position : Int) {
+        var tsDoc = firestore?.collection("images")?.document(Uids[position])
+        firestore?.runTransaction { transaction ->
+
+
+            var PostData = transaction.get(tsDoc!!).toObject(PostData::class.java)
+
+            if (PostData!!.likes.containsKey(uid)) {
+                //When the button is clicked
+                PostData.likecount = PostData.likecount - 1
+                PostData.likes.remove(uid)
+            } else {
+                //When the button is not clicked
+                PostData.likecount = PostData.likecount + 1
+                PostData.likes[uid!!] = true
+
+            }
+            transaction.set(tsDoc, PostData)
+        }
     }
 }

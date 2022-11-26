@@ -70,13 +70,15 @@ class Home : Fragment() {
             firestore?.collection("images")?.orderBy("timestamp")
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     val PostDatas = ArrayList<PostData>()
+                    var Uids: ArrayList<String> = arrayListOf()
                     for (snapshot in querySnapshot!!.documents) {
                         val postData = snapshot.toObject(PostData::class.java)
                         if (postData != null&&(adapter.friendList.contains(postData.userId)||postData.userId==Firebase.auth.currentUser?.email)) {
                             PostDatas.add(postData)
+                            Uids.add(snapshot.id)
                         }
                     }
-                    adapter.updateList(PostDatas)
+                    adapter.updateList(PostDatas,Uids)
                 }
         }
 

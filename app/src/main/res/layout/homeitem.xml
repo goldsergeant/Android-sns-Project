@@ -70,7 +70,7 @@
         app:layout_constraintStart_toEndOf="@+id/likeButton"
         app:layout_constraintTop_toTopOf="@+id/chatButton" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/likeButton"
         android:layout_width="20dp"
         android:layout_height="20dp"
