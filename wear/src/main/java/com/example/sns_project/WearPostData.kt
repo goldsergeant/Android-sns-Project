@@ -9,7 +9,7 @@ data class WearPostData (var uid : String? = null,//유저 정보
                          var timestamp : Long? = null,//포스팅 시간
 
                          var likecount : Int = 0,//좋아요 수
-                         var likes : Map<String,Boolean> = HashMap())//중복좋아요 방지
+                         var likes : MutableMap<String,Boolean> = HashMap())//중복좋아요 방지
 {
     data class Comment(var uid : String? = null,//유저 정보
                        var userId: String? = null,
