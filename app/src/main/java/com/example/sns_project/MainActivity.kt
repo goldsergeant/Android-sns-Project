@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
 
         binding.bottomNavigation.setOnItemSelectedListener { item->
             when(item.itemId){

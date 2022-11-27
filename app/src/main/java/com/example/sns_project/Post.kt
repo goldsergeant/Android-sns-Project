@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -44,6 +45,7 @@ class Post : AppCompatActivity() {
     var firestore : FirebaseFirestore? = null
 
     lateinit var storagePermission: ActivityResultLauncher<String>
+    lateinit var storagePermission_T: ActivityResultLauncher<Array<String>>
 
     lateinit var gallaryLauncher: ActivityResultLauncher<String>
 
@@ -59,13 +61,35 @@ class Post : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        storagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted->
-            if(isGranted) {
-                setViews()
-            } else {
-                Toast.makeText(baseContext,"외부저장소 권한을 승인해주십시오.",Toast.LENGTH_LONG).show()
-                finish()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            storagePermission_T =
+                registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+                    if (it.all { permission -> permission.value == true }) {
+                        setViews()
+                    } else {
+                        Toast.makeText(baseContext, "외부저장소 권한을 승인해주십시오.", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                }
+
+            storagePermission_T.launch(
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO
+                )
+            )
+        }
+        else {
+            storagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted->
+                if(isGranted) {
+                    setViews()
+                } else {
+                    Toast.makeText(baseContext,"외부저장소 권한을 승인해주십시오.",Toast.LENGTH_LONG).show()
+                    finish()
+                }
             }
+
+            storagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
         gallaryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri->
@@ -73,8 +97,6 @@ class Post : AppCompatActivity() {
             photoUri = uri
         }
 
-
-        storagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     }
 
