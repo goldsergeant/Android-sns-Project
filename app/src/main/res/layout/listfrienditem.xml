@@ -5,11 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp"
+        android:background="#E8E8E8"
+        app:layout_constraintTop_toBottomOf="@+id/friendListEmail"
+        tools:layout_editor_absoluteX="-16dp" />
+
     <TextView
         android:id="@+id/friendListName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="60dp"
         android:text="TextView"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/deleteFriendButton"
@@ -19,7 +30,8 @@
         android:id="@+id/deleteFriendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:text="delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,15 +40,19 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="이메일"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="이름"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,9 +62,10 @@
         android:id="@+id/friendListEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="60dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteFriendButton" />
+        app:layout_constraintEnd_toStartOf="@+id/deleteFriendButton"
+        app:layout_constraintTop_toBottomOf="@+id/friendListName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

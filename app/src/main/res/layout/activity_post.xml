@@ -24,6 +24,7 @@
                 android:text="Post"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="#346594"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +67,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_photobutton" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/post_uploadbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,9 +75,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="36dp"
-                android:background="#A6A6A6"
                 android:text="upload"
-                android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_edittext" />
         </LinearLayout>

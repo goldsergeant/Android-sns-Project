@@ -13,6 +13,7 @@
         android:layout_marginTop="8dp"
         android:text="Friend's Name"
         android:textSize="16dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
